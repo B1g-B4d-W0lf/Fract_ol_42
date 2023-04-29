@@ -6,7 +6,7 @@
 #    By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/23 02:36:56 by wfreulon          #+#    #+#              #
-#    Updated: 2023/04/23 03:06:51 by wfreulon         ###   ########.fr        #
+#    Updated: 2023/04/28 22:26:53 by wfreulon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,25 +16,25 @@ LIBFT = ./Libft/libft.a
 MLX = ./mlx/libmlx.a ./mlx/libmlx_Linux.a
 HEADERFILES = -I fract_ol.h Libft/libft.h
 OBJFILES = $(SRC:.c=.o)
-CFLAGS = -Wall -Wextra -Werror -g3
+#CFLAGS = -Wall -Wextra -Werror -g3
 CC = gcc
 
 $(NAME): $(OBJFILES)
-	make -C Libft
-	$(CC) $(CFLAGS) $(OBJFILES) ${LIBFT} -o $(NAME) ${MLX}
+#	make -C Libft
+	$(CC) $(CFLAGS) $(OBJFILES) ${LIBFT}  ${MLX} -lXext -lX11 -lm -lz -o $(NAME)
 
 all: $(NAME)
 
-#%.o: %.c $(HEADERFILES)
-#	$(CC) -c $(CFLAGS) -o $@ $<
+%.o: %.c $(HEADERFILES)
+	$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:
-	make clean -C Libft
+#	make clean -C Libft
 	rm -f $(OBJFILES) $(OBJBONUS)
 
 fclean:
-	make fclean -C Libft
-	rm -f $(NAME) $(NAME_B) $(OBJBONUS) $(OBJFILES) ${LIBFT} 
+#	make fclean -C Libft
+	rm -f $(NAME) $(NAME_B) $(OBJBONUS) $(OBJFILES)
 
 re: fclean all
 	

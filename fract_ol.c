@@ -6,8 +6,90 @@
 /*   By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 02:26:56 by wfreulon          #+#    #+#             */
-/*   Updated: 2023/04/23 02:42:42 by wfreulon         ###   ########.fr       */
+/*   Updated: 2023/04/29 03:17:09 by wfreulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	main
+#include "fract_ol.h"
+
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
+
+int	trgb_creator(t_colors ints, int axis, int ord)
+{
+	int	ref;
+
+	ref = (ord * axis);
+	if (ref > 256)
+		ref = ref / 100;
+	ints.b = ref + 64;
+	ints.t = ref + 105;
+	ints.r = ref + 45;
+	ints.g = ref + 12;
+	return (ints.t << 24 | ints.r << 16 | ints.g << 8 | ints.b);
+	// return(ints.t << w | ints.r << x | ints.g << 8 | ints.b);
+}
+
+void	fill_pixel(t_data img, int x, int y, t_colors ints)
+{
+	int	ref;
+	
+	while (x != 500)
+	{
+		ref = y;
+		while (y != x)
+		{
+			my_mlx_pixel_put(&img, x, y, trgb_creator(ints, x, y));
+			y--;
+		}
+		y = (ref - 1);
+		x++;
+	}	
+}
+
+int	closed(int keycode, t_vars *vars)
+{
+	printf("keycode >> %d\n", keycode);
+	if (keycode == 65307)
+	{
+		mlx_destroy_window(vars->mlx, vars->win);
+		exit(0);
+	}
+	return (0);
+}
+
+int	main(t_colors ints)
+{
+	t_vars	vars;
+	t_data	img;
+	int		x;
+	int		y;
+	
+	x = 3;
+	y = 3;
+	vars.mlx = mlx_init();
+	vars.win = mlx_new_window(vars.mlx, 1920, 1080, "Fract_Ol");
+	img.img = mlx_new_image(vars.mlx, 1920, 1080);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+	while (x != 500 && y != 500)
+	{
+		my_mlx_pixel_put(&img, x, y, trgb_creator(ints, 24, 16));
+		x++;
+		y++;
+	}
+	while (x != 3  && y != 1000)
+	{
+		my_mlx_pixel_put(&img, x, y, trgb_creator(ints, 24, 16));
+		x--;
+		y++;
+	}
+	fill_pixel(img, x, y, ints);
+	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
+	mlx_hook(vars.win, 2, 1L<<0, closed, &vars);
+	mlx_loop(vars.mlx);
+}
