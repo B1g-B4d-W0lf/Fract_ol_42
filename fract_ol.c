@@ -6,7 +6,7 @@
 /*   By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 02:26:56 by wfreulon          #+#    #+#             */
-/*   Updated: 2023/05/02 21:55:31 by wfreulon         ###   ########.fr       */
+/*   Updated: 2023/05/02 23:07:42 by wfreulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,36 @@ int	trgb_creator(t_colors ints, int axis, int ord)
 
 	ref = (ord * axis);
 	if (ref < 50000)
-		return(ints.r = 255 | ints.g == 255 | ints.b == 0);
+	{
+		ints.r = 255;
+		ints.g == 178;
+		ints.b == 102;
+	}
 	else if (ref < 100000)
-		return(ints.r = 255 | ints.g == 255 | ints.b == 0);
+	{
+		ints.r = 255;
+		ints.g == 178;
+		ints.b == 102;
+	}
 	else if (ref < 150000)
-		return(ints.r = 255 | ints.g == 255 | ints.b == 0);
+	{
+		ints.r = 255;
+		ints.g == 178;
+		ints.b == 102;
+	}
 	else if (ref < 200000)
-		return(ints.r = 0 | ints.g == 255 | ints.b == 0);
+	{
+		ints.r = 255;
+		ints.g == 178;
+		ints.b == 102;
+	}
 	else if (ref < 250000)
-		return(ints.r = 0 | ints.g == 255 | ints.b == 0);
-	return (ints.t << 24 | ints.r << 16 | ints.g << 8 | ints.b);
+	{
+		ints.r = 255;
+		ints.g == 178;
+		ints.b == 102;
+	}
+	return (ints.r << 16 | ints.g << 8 | ints.b);
 }
 
 void	fill_pixel(t_data img, int x, int y, t_colors ints)
@@ -102,13 +122,13 @@ int	main(t_colors ints)
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	while (x != 500 && y != 500)
 	{
-		my_mlx_pixel_put(&img, x, y, trgb_creator(ints, 24, 16));
+		my_mlx_pixel_put(&img, x, y, trgb_creator(ints, x, y));
 		x++;
 		y++;
 	}
 	while (x != 3  && y != 1000)
 	{
-		my_mlx_pixel_put(&img, x, y, trgb_creator(ints, 24, 16));
+		my_mlx_pixel_put(&img, x, y, trgb_creator(ints, x, y));
 		x--;
 		y++;
 	}
