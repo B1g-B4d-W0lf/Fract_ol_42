@@ -6,7 +6,7 @@
 /*   By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 02:26:56 by wfreulon          #+#    #+#             */
-/*   Updated: 2023/04/29 03:17:09 by wfreulon         ###   ########.fr       */
+/*   Updated: 2023/05/02 21:55:31 by wfreulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,36 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
+int	chunksdef(int ref, t_colors ints)
+{
+	
+	if (ref < 50000)
+		return(ints.r = 255 | ints.g == 0 | ints.b == 0);
+	else if (ref < 100000)
+		return(ints.r = 0 | ints.g == 255 | ints.b == 100);
+	else if (ref < 150000)
+		return(ints.r = 0 | ints.g == 100 | ints.b == 255);
+	else if (ref < 200000)
+		return(ints.r = 0 | ints.g == 0 | ints.b == 255);
+	else if (ref < 250000)
+		return(ints.r = 0 | ints.g == 255 | ints.b == 0);
+}
 int	trgb_creator(t_colors ints, int axis, int ord)
 {
 	int	ref;
 
 	ref = (ord * axis);
-	if (ref > 256)
-		ref = ref / 100;
-	ints.b = ref + 64;
-	ints.t = ref + 105;
-	ints.r = ref + 45;
-	ints.g = ref + 12;
+	if (ref < 50000)
+		return(ints.r = 255 | ints.g == 255 | ints.b == 0);
+	else if (ref < 100000)
+		return(ints.r = 255 | ints.g == 255 | ints.b == 0);
+	else if (ref < 150000)
+		return(ints.r = 255 | ints.g == 255 | ints.b == 0);
+	else if (ref < 200000)
+		return(ints.r = 0 | ints.g == 255 | ints.b == 0);
+	else if (ref < 250000)
+		return(ints.r = 0 | ints.g == 255 | ints.b == 0);
 	return (ints.t << 24 | ints.r << 16 | ints.g << 8 | ints.b);
-	// return(ints.t << w | ints.r << x | ints.g << 8 | ints.b);
 }
 
 void	fill_pixel(t_data img, int x, int y, t_colors ints)
@@ -63,6 +80,13 @@ int	closed(int keycode, t_vars *vars)
 	return (0);
 }
 
+int	cross(t_vars *vars)
+{
+	mlx_destroy_window(vars->mlx, vars->win);
+	exit(0);
+	return(0);
+}
+
 int	main(t_colors ints)
 {
 	t_vars	vars;
@@ -91,5 +115,6 @@ int	main(t_colors ints)
 	fill_pixel(img, x, y, ints);
 	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
 	mlx_hook(vars.win, 2, 1L<<0, closed, &vars);
+	mlx_hook(vars.win, 17, 1L<<17, cross, &vars);
 	mlx_loop(vars.mlx);
 }
