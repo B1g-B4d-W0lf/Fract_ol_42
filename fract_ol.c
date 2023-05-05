@@ -6,7 +6,7 @@
 /*   By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 02:26:56 by wfreulon          #+#    #+#             */
-/*   Updated: 2023/05/02 23:07:42 by wfreulon         ###   ########.fr       */
+/*   Updated: 2023/05/05 03:25:37 by wfreulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,73 +20,13 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-int	chunksdef(int ref, t_colors ints)
-{
-	
-	if (ref < 50000)
-		return(ints.r = 255 | ints.g == 0 | ints.b == 0);
-	else if (ref < 100000)
-		return(ints.r = 0 | ints.g == 255 | ints.b == 100);
-	else if (ref < 150000)
-		return(ints.r = 0 | ints.g == 100 | ints.b == 255);
-	else if (ref < 200000)
-		return(ints.r = 0 | ints.g == 0 | ints.b == 255);
-	else if (ref < 250000)
-		return(ints.r = 0 | ints.g == 255 | ints.b == 0);
-}
-int	trgb_creator(t_colors ints, int axis, int ord)
-{
-	int	ref;
 
-	ref = (ord * axis);
-	if (ref < 50000)
-	{
-		ints.r = 255;
-		ints.g == 178;
-		ints.b == 102;
-	}
-	else if (ref < 100000)
-	{
-		ints.r = 255;
-		ints.g == 178;
-		ints.b == 102;
-	}
-	else if (ref < 150000)
-	{
-		ints.r = 255;
-		ints.g == 178;
-		ints.b == 102;
-	}
-	else if (ref < 200000)
-	{
-		ints.r = 255;
-		ints.g == 178;
-		ints.b == 102;
-	}
-	else if (ref < 250000)
-	{
-		ints.r = 255;
-		ints.g == 178;
-		ints.b == 102;
-	}
-	return (ints.r << 16 | ints.g << 8 | ints.b);
-}
-
-void	fill_pixel(t_data img, int x, int y, t_colors ints)
+int	trgb_creator(t_colors ints)
 {
-	int	ref;
-	
-	while (x != 500)
-	{
-		ref = y;
-		while (y != x)
-		{
-			my_mlx_pixel_put(&img, x, y, trgb_creator(ints, x, y));
-			y--;
-		}
-		y = (ref - 1);
-		x++;
-	}	
+	ints.r = 255;
+	ints.g == 178;
+	ints.b == 102;
+	return (ints.t << 24 | ints.r << 16 | ints.g << 8 | ints.b);
 }
 
 int	closed(int keycode, t_vars *vars)
@@ -107,32 +47,69 @@ int	cross(t_vars *vars)
 	return(0);
 }
 
+float	calculing(t_complex c, float n)
+{
+	t_complex	z;
+	t_complex	tmp;
+	
+	n = 0;
+	z.re = 0;
+	tmp.re = 0;
+	z.im = 0;
+	tmp.im = 0;
+	while (n < NMAX)
+	{
+		tmp.re = (z.re * z.re) - (z.im * z.im) + c.re;
+		tmp.im = 2 * z.re * z.im + c.im;
+		z = tmp;
+		n++;
+		if ((z.re * z.re) + (z.im * z.im) >= 4)
+			break;
+	}
+	return (n);
+}
+
+void	draw_fractal(int width, int height, t_data img, t_colors ints)
+{
+	t_complex	c;
+	float	x;
+	float	y;
+	float	n;
+
+	x = 0;
+	y = 0;
+	while (x <= width)
+	{
+		while (y <= height)
+		{
+			c.re = ((x * 4) / width) - 2;
+			c.im = ((y * 4) / height) - 2;
+			n = calculing(c, n);
+			if (n >= NMAX)
+			{
+				my_mlx_pixel_put(&img, x, y, trgb_creator(ints));
+			}
+			y++;
+		}
+		y = 0;
+		x++;
+	}
+}
+
 int	main(t_colors ints)
 {
 	t_vars	vars;
 	t_data	img;
-	int		x;
-	int		y;
+	int		window_height;
+	int		window_width;
 	
-	x = 3;
-	y = 3;
+	window_height = 1080;
+	window_width = 1920;
 	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 1920, 1080, "Fract_Ol");
-	img.img = mlx_new_image(vars.mlx, 1920, 1080);
+	vars.win = mlx_new_window(vars.mlx, window_width, window_height, "Fract_Ol");
+	img.img = mlx_new_image(vars.mlx, window_width, window_height);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	while (x != 500 && y != 500)
-	{
-		my_mlx_pixel_put(&img, x, y, trgb_creator(ints, x, y));
-		x++;
-		y++;
-	}
-	while (x != 3  && y != 1000)
-	{
-		my_mlx_pixel_put(&img, x, y, trgb_creator(ints, x, y));
-		x--;
-		y++;
-	}
-	fill_pixel(img, x, y, ints);
+	draw_fractal(window_width, window_height, img, ints);
 	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
 	mlx_hook(vars.win, 2, 1L<<0, closed, &vars);
 	mlx_hook(vars.win, 17, 1L<<17, cross, &vars);

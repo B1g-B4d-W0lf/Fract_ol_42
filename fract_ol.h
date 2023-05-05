@@ -6,7 +6,7 @@
 /*   By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 02:27:12 by wfreulon          #+#    #+#             */
-/*   Updated: 2023/05/02 21:54:59 by wfreulon         ###   ########.fr       */
+/*   Updated: 2023/05/05 02:21:19 by wfreulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "./Libft/libft.h"
 # include "./mlx/mlx.h"
 # include <math.h>
+
+# define NMAX 100.
 
 enum
 {
@@ -27,6 +29,12 @@ enum
 	ON_EXPOSE = 12,
 	ON_DESTROY = 17
 } ;
+
+typedef struct s_complex
+{
+	float	re;
+	float	im;
+}			t_complex;
 
 typedef struct s_colors
 {
