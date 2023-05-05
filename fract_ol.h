@@ -6,11 +6,11 @@
 /*   By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 02:27:12 by wfreulon          #+#    #+#             */
-/*   Updated: 2023/05/05 02:21:19 by wfreulon         ###   ########.fr       */
+/*   Updated: 2023/05/06 01:11:31 by wfreulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef FRACT_OL_H
+#ifndef FRACT_OL_H
 # define FRACT_OL_H
 
 # include "./Libft/libft.h"
@@ -18,6 +18,8 @@
 # include <math.h>
 
 # define NMAX 100.
+# define HEIGHT 1080
+# define WIDTH 1920
 
 enum
 {
@@ -38,10 +40,10 @@ typedef struct s_complex
 
 typedef struct s_colors
 {
-	int	t;
-	int	r;
-	int	g;
-	int	b;
+	float	t;
+	float	r;
+	float	g;
+	float	b;
 }			t_colors;
 
 typedef struct	s_data 
@@ -58,6 +60,14 @@ typedef struct	s_vars
 	void	*mlx;
 	void	*win;
 }				t_vars;
+
+//colors
+int		trgb_creator( float n);
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+
+//mandel
+void	draw_mandel(t_data img);
+float	calculing_mandel(t_complex c, float n);
 
 # endif
 

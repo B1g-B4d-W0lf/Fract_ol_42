@@ -6,12 +6,13 @@
 #    By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/23 02:36:56 by wfreulon          #+#    #+#              #
-#    Updated: 2023/04/28 22:26:53 by wfreulon         ###   ########.fr        #
+#    Updated: 2023/05/06 00:41:40 by wfreulon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
-SRC = fract_ol.c
+SRC = fract_ol.c \
+mandel.c 
 LIBFT = ./Libft/libft.a
 MLX = ./mlx/libmlx.a ./mlx/libmlx_Linux.a
 HEADERFILES = -I fract_ol.h Libft/libft.h
