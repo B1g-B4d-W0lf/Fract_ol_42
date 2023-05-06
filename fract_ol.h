@@ -6,7 +6,7 @@
 /*   By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 02:27:12 by wfreulon          #+#    #+#             */
-/*   Updated: 2023/05/06 01:11:31 by wfreulon         ###   ########.fr       */
+/*   Updated: 2023/05/06 21:58:03 by wfreulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,13 @@
 # include "./mlx/mlx.h"
 # include <math.h>
 
-# define NMAX 100.
-# define HEIGHT 1080
-# define WIDTH 1920
+# define NMAX 50.
+# define HEIGHT 1440
+# define WIDTH 2560
+# define RESIZE 4
+# define IMSIZE 4
+# define RE 2
+# define IM 2
 
 enum
 {
@@ -32,6 +36,7 @@ enum
 	ON_DESTROY = 17
 } ;
 
+// structures
 typedef struct s_complex
 {
 	float	re;
@@ -46,7 +51,7 @@ typedef struct s_colors
 	float	b;
 }			t_colors;
 
-typedef struct	s_data 
+typedef struct s_data
 {
 	void	*img;
 	char	*addr;
@@ -55,7 +60,7 @@ typedef struct	s_data
 	int		endian;
 }				t_data;
 
-typedef struct	s_vars 
+typedef struct s_vars
 {
 	void	*mlx;
 	void	*win;
@@ -69,6 +74,8 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	draw_mandel(t_data img);
 float	calculing_mandel(t_complex c, float n);
 
-# endif
+//julia
+void	draw_julia(t_data img);
+float	calculing_julia(t_complex c, float n);
 
-
+#endif

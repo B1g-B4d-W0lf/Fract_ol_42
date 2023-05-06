@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandel.c                                           :+:      :+:    :+:   */
+/*   julia.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/06 00:33:55 by wfreulon          #+#    #+#             */
-/*   Updated: 2023/05/06 21:51:03 by wfreulon         ###   ########.fr       */
+/*   Created: 2023/05/06 21:34:04 by wfreulon          #+#    #+#             */
+/*   Updated: 2023/05/06 21:50:46 by wfreulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fract_ol.h"
 
-float	calculing_mandel(t_complex c, float n)
+float	calculing_julia(t_complex c, float n)
 {
 	t_complex	z;
 	t_complex	tmp;
 
 	n = 0;
-	z.re = 0;
+	z = c;
+	c.re = -0.162;
+	c.im = 1.04;
 	tmp.re = 0;
-	z.im = 0;
 	tmp.im = 0;
 	while (n < NMAX)
-	{
+	{	
 		tmp.re = (z.re * z.re) - (z.im * z.im) + c.re;
 		tmp.im = 2 * z.re * z.im + c.im;
 		z = tmp;
@@ -34,7 +35,7 @@ float	calculing_mandel(t_complex c, float n)
 	return (n);
 }
 
-void	draw_mandel(t_data img)
+void	draw_julia(t_data img)
 {
 	t_complex	c;
 	float		x;
@@ -47,9 +48,9 @@ void	draw_mandel(t_data img)
 	{
 		while (y <= HEIGHT)
 		{
-			c.re = ((x * 4) / WIDTH) - 2;
-			c.im = ((y * 4) / HEIGHT) - 2;
-			n = calculing_mandel(c, n);
+			c.re = ((x * RESIZE) / WIDTH) - RE;
+			c.im = ((y * IMSIZE) / HEIGHT) - IM;
+			n = calculing_julia(c, n);
 			if (n != NMAX)
 			{
 				my_mlx_pixel_put(&img, x, y, trgb_creator(n));
