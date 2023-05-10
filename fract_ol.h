@@ -6,7 +6,7 @@
 /*   By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 02:27:12 by wfreulon          #+#    #+#             */
-/*   Updated: 2023/05/06 21:58:03 by wfreulon         ###   ########.fr       */
+/*   Updated: 2023/05/10 22:52:42 by wfreulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,11 @@
 # include "./mlx/mlx.h"
 # include <math.h>
 
-# define NMAX 50.
-# define HEIGHT 1440
-# define WIDTH 2560
-# define RESIZE 4
-# define IMSIZE 4
-# define RE 2
-# define IM 2
+# define NMAX 100.
+# define HEIGHT 1080
+# define WIDTH 1080
+# define MANDEL 1
+# define JULIA 2
 
 enum
 {
@@ -62,8 +60,14 @@ typedef struct s_data
 
 typedef struct s_vars
 {
-	void	*mlx;
-	void	*win;
+	void		*mlx;
+	void		*win;
+	float		resize;
+	float		imsize;
+	float		re;
+	float		im;
+	int			fract;
+	t_complex	c;
 }				t_vars;
 
 //colors
@@ -71,11 +75,23 @@ int		trgb_creator( float n);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 //mandel
-void	draw_mandel(t_data img);
+void	draw_mandel(t_data img, t_vars vars);
 float	calculing_mandel(t_complex c, float n);
+void	make_mandel(t_vars *vars);
+void	make_mandel_win(t_vars *vars);
 
 //julia
-void	draw_julia(t_data img);
-float	calculing_julia(t_complex c, float n);
+void	draw_julia(t_data *img, t_vars vars);
+float	calculing_julia(t_complex c, float n, t_vars vars);
+void	make_julia_win(t_vars *vars);
+void	make_julia(t_vars *vars);
+
+//mlx
+int		mousezoom(int scroll, int x, int y, t_vars *vars);
+void	management(t_vars *vars);
+int		zooming(t_vars *vars);
+int		closed(int keycode, t_vars *vars);
+int		cross(t_vars *vars);
+void	ft_destroy(t_vars *vars);
 
 #endif
