@@ -1,18 +1,67 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandel.c                                           :+:      :+:    :+:   */
+/*   sierpinski.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/06 00:33:55 by wfreulon          #+#    #+#             */
-/*   Updated: 2023/05/11 23:53:35 by wfreulon         ###   ########.fr       */
+/*   Created: 2023/05/12 01:56:30 by wfreulon          #+#    #+#             */
+/*   Updated: 2023/05/12 04:52:32 by wfreulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fract_ol.h"
 
-void	make_mandel(t_vars *vars)
+void	draw_line(t_data *img, float x, float y)
+{
+	
+}
+void	calculing_sierpinski(t_data *img)
+{
+	t_complex	z;
+	t_complex	t;
+	t_complex	h;
+	t_complex	tmp;
+	float		x;
+	float		y;
+	
+	x = WIDTH / 2;
+	y = HEIGHT / 2;
+	z.im = y - (y / 3) * 1.8;
+	z.re = x;
+	t.im = y + (y / 6) * 1.8;
+	t.re = x + (sqrt(y * y / 12)) * 1.8;
+	h.im = y + (y / 6) * 1.8;
+	h.re = x - (sqrt( y* y / 12)) * 1.8;
+	tmp = z;
+	x = z.re;
+	y = z.im;
+	while (x <= t.re && y <= t.im)
+	{
+		my_mlx_pixel_put(img, x, y, 0x00660033);
+		x++;
+		y = y + 1.5;
+	}	
+	while (x >= h.re)
+	{
+		my_mlx_pixel_put(img, x, y, 0x00006633);
+		x--;
+	}
+	while (x <= tmp.re && y >= tmp.im)
+	{
+		my_mlx_pixel_put(img, x, y, 0x00667733);
+		x++;
+		y = y - 1.5;
+	}
+}
+
+void	draw_sierpinski(t_data *img, t_vars vars)
+{
+	if (vars.color == 1)
+		calculing_sierpinski(img);
+}
+
+void	make_sierpinski(t_vars *vars)
 {
 	t_data	img;
 
@@ -34,72 +83,25 @@ void	make_mandel(t_vars *vars)
 		free(vars->mlx);
 		exit(0);
 	}
-	draw_mandel(img, *vars);
+	draw_sierpinski(&img, *vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, img.img, 0, 0);
 	mlx_destroy_image(vars->mlx, img.img);
 }
 
-void	make_mandel_win(t_vars *vars)
+void	make_sierpinski_win(t_vars *vars)
 {
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
 		exit(0);
-	vars->win = mlx_new_window(vars->mlx, WIDTH, HEIGHT, "Mandelbrot");
+	vars->win = mlx_new_window(vars->mlx, WIDTH, HEIGHT, "Sierpinski");
 	if (!vars->win)
 	{
 		free(vars->mlx);
 		exit(0);
 	}
-	make_mandel(vars);
+	make_sierpinski(vars);
 	management(vars);
 	mlx_loop(vars->mlx);
 }
 
-float	calculing_mandel(t_complex c, float n)
-{
-	t_complex	z;
-	t_complex	tmp;
 
-	n = 0;
-	z.re = 0;
-	tmp.re = 0;
-	z.im = 0;
-	tmp.im = 0;
-	while (n < NMAX)
-	{
-		tmp.re = (z.re * z.re) - (z.im * z.im) + c.re;
-		tmp.im = 2 * z.re * z.im + c.im;
-		z = tmp;
-		n++;
-		if ((z.re * z.re) + (z.im * z.im) >= 4)
-			break ;
-	}
-	return (n);
-}
-
-void	draw_mandel(t_data img, t_vars vars)
-{
-	t_complex	c;
-	float		x;
-	float		y;
-	float		n;
-
-	x = 0;
-	y = 0;
-	while (x < WIDTH)
-	{
-		while (y < HEIGHT)
-		{
-			c.re = ((x * vars.resize) / WIDTH) - vars.re;
-			c.im = ((y * vars.imsize) / HEIGHT) - vars.im;
-			n = calculing_mandel(c, n);
-			if (n != NMAX)
-			{
-				my_mlx_pixel_put(&img, x, y, trgb_creator(n, vars));
-			}
-			y++;
-		}
-		y = 0;
-		x++;
-	}
-}

@@ -6,7 +6,7 @@
 /*   By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 21:34:04 by wfreulon          #+#    #+#             */
-/*   Updated: 2023/05/11 00:03:16 by wfreulon         ###   ########.fr       */
+/*   Updated: 2023/05/11 23:53:08 by wfreulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,16 @@ void	draw_julia(t_data *img, t_vars vars)
 
 	x = 0;
 	y = 0;
-	while (x <= WIDTH)
+	while (x < WIDTH)
 	{
-		while (y <= HEIGHT)
+		while (y < HEIGHT)
 		{
 			c.re = ((x * vars.resize) / WIDTH) - vars.re;
 			c.im = ((y * vars.imsize) / HEIGHT) - vars.im;
 			n = calculing_julia(c, n, vars);
 			if (n != NMAX)
 			{
-				my_mlx_pixel_put(img, x, y, trgb_creator(n));
+				my_mlx_pixel_put(img, x, y, trgb_creator(n, vars));
 			}
 			y++;
 		}

@@ -6,7 +6,7 @@
 /*   By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 02:27:12 by wfreulon          #+#    #+#             */
-/*   Updated: 2023/05/10 22:52:42 by wfreulon         ###   ########.fr       */
+/*   Updated: 2023/05/12 02:30:40 by wfreulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "./mlx/mlx.h"
 # include <math.h>
 
-# define NMAX 100.
+# define NMAX 200.
 # define HEIGHT 1080
 # define WIDTH 1080
 # define MANDEL 1
@@ -68,11 +68,13 @@ typedef struct s_vars
 	float		im;
 	int			fract;
 	t_complex	c;
+	int			color;
 }				t_vars;
 
 //colors
-int		trgb_creator( float n);
+int		trgb_creator(float n, t_vars vars);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void	rainbow(int keycode, t_vars *vars);
 
 //mandel
 void	draw_mandel(t_data img, t_vars vars);
@@ -93,5 +95,7 @@ int		zooming(t_vars *vars);
 int		closed(int keycode, t_vars *vars);
 int		cross(t_vars *vars);
 void	ft_destroy(t_vars *vars);
+
+void	make_sierpinski_win(t_vars *vars);
 
 #endif

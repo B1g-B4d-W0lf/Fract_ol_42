@@ -6,7 +6,7 @@
 /*   By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 02:26:56 by wfreulon          #+#    #+#             */
-/*   Updated: 2023/05/11 00:22:37 by wfreulon         ###   ########.fr       */
+/*   Updated: 2023/05/12 02:32:50 by wfreulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,43 +30,6 @@ void	ft_destroy(t_vars *vars)
 	exit(0);
 }
 
-float	ft_atof(char *str)
-{
-	int		i;
-	float	f[4];
-
-	f[3] = 0.1;
-	f[1] = 0.;
-	f[0] = 0;
-	f[2] = 1;
-	i = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			f[2] = f[2] * (-1);
-		i++;
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		f[0] = f[0] * 10 + str[i] - 48;
-		i++;
-	}
-	if (str[i] == '.' || str[i] == ',')
-	{
-		i++;
-		while (str[i] >= '0' && str[i] <= '9')
-		{
-			f[1] = f[1] + (str[i] - 48) * f[3];
-			f[3] = f[3] * 0.1;
-			i++;
-		}
-	}
-	f[0] = (f[0] + f[1]) * f[2];
-	return (f[0]);
-}
-
 int	zooming(t_vars *vars)
 {
 	vars->imsize = vars->resize;
@@ -78,9 +41,9 @@ int	zooming(t_vars *vars)
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
-	float	c;
 
 	vars.resize = 4.000;
+	vars.color = 1;
 	if (argc == 2 && ft_atoi(argv[1]) == MANDEL)
 	{
 		vars.fract = atoi(argv[1]);
@@ -94,6 +57,10 @@ int	main(int argc, char **argv)
 		vars.c.im = ft_atof(argv[3]);
 		zooming(&vars);
 		make_julia_win(&vars);
+	}
+	else if (argc == 1)
+	{
+		make_sierpinski_win(&vars);
 	}
 	else
 		consignes();

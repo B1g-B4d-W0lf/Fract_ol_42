@@ -6,7 +6,7 @@
 /*   By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 20:18:04 by wfreulon          #+#    #+#             */
-/*   Updated: 2023/05/11 00:45:57 by wfreulon         ###   ########.fr       */
+/*   Updated: 2023/05/11 23:48:19 by wfreulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	closed(int keycode, t_vars *vars)
 {
 	if (keycode == 65307)
-	{
 		ft_destroy(vars);
-	}
+	if (keycode >= 49 || keycode <= 51)
+		rainbow(keycode, vars);
 	return (0);
 }
 
@@ -29,7 +29,8 @@ int	cross(t_vars *vars)
 
 int	mousezoom(int scroll, int x, int y, t_vars *vars)
 {
-	if (scroll == 4 && vars->resize > 0.500)
+	mlx_mouse_get_pos(vars->mlx, vars->win, &x, &y);
+	if (scroll == 4)
 	{	
 		vars->resize = vars->resize / 1.1;
 		printf("%f\n", vars->resize);
