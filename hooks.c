@@ -6,7 +6,7 @@
 /*   By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 20:18:04 by wfreulon          #+#    #+#             */
-/*   Updated: 2023/05/11 23:48:19 by wfreulon         ###   ########.fr       */
+/*   Updated: 2023/05/12 19:44:42 by wfreulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	mousezoom(int scroll, int x, int y, t_vars *vars)
 	if (scroll == 4)
 	{	
 		vars->resize = vars->resize / 1.1;
-		printf("%f\n", vars->resize);
 		zooming(vars);
 		if (vars->fract == MANDEL)
 			make_mandel(vars);

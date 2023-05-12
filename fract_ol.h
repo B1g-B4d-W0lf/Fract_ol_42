@@ -6,7 +6,7 @@
 /*   By: wfreulon <wfreulon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 02:27:12 by wfreulon          #+#    #+#             */
-/*   Updated: 2023/05/12 02:30:40 by wfreulon         ###   ########.fr       */
+/*   Updated: 2023/05/12 21:50:46 by wfreulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,27 @@ typedef struct s_vars
 	t_complex	c;
 	int			color;
 }				t_vars;
+
+typedef struct s_sier
+{
+	t_complex	z;
+	t_complex	t;
+	t_complex	h;
+	t_complex	zt;
+	t_complex	th;
+	t_complex 	hz;
+	float		x_start;
+	float		y_start;
+	float		x_end;
+	float		y_end;
+	float		x;
+	float		y;
+	float		fx;
+	float		fy;
+	float		steps;
+	float		x_i;
+	float		y_i;
+}			t_sier;
 
 //colors
 int		trgb_creator(float n, t_vars vars);
